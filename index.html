@@ -15,6 +15,7 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            overflow-x: hidden;
         }
         header {
             background-color: #343a40;
@@ -27,6 +28,22 @@
             width: 80%;
             margin: 20px auto;
         }
+        .profile-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .profile-box {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            width: 30%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .profile-box h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
         .chart-container {
             background-color: white;
             border-radius: 8px;
@@ -38,6 +55,13 @@
             font-size: 20px;
             margin-bottom: 10px;
         }
+        .section {
+            padding: 50px 0;
+            transition: transform 0.5s;
+        }
+        .section:nth-child(even) {
+            background-color: #eaeaea;
+        }
     </style>
 </head>
 <body>
@@ -45,17 +69,61 @@
         Interactive Dashboard
     </header>
     <div class="container">
-        <div class="chart-container">
-            <h2>Source Distribution</h2>
-            <div id="source-distribution" style="height: 400px;"></div>
+        <div class="profile-container">
+            <div class="profile-box">
+                <h3>Direct Visitor</h3>
+                <p><strong>Source:</strong> Direct</p>
+                <p><strong>Common Cities:</strong> New York, Chicago</p>
+                <p><strong>Common Genders:</strong> Female</p>
+                <p><strong>Common Age Ranges:</strong> 55-64, 65 and older</p>
+                <p><strong>Common Income Ranges:</strong> $120,000 to $149,999</p>
+                <p><strong>Common Job Titles:</strong> Principal, Owner, President</p>
+                <p><strong>Common Companies:</strong> Gensler, Adrian Smith + Gordon Gill Architecture</p>
+            </div>
+            <div class="profile-box">
+                <h3>Search Engine Visitor</h3>
+                <p><strong>Source:</strong> Google or Bing</p>
+                <p><strong>Common Cities:</strong> Miami, Brooklyn</p>
+                <p><strong>Common Genders:</strong> Mixed (lean towards male)</p>
+                <p><strong>Common Age Ranges:</strong> 45-54, 35-44</p>
+                <p><strong>Common Income Ranges:</strong> $45,000 to $59,999, $75,000 to $89,999</p>
+                <p><strong>Common Job Titles:</strong> Director, Senior Associate, VP</p>
+                <p><strong>Common Companies:</strong> CTBUH</p>
+            </div>
+            <div class="profile-box">
+                <h3>Referral Visitor</h3>
+                <p><strong>Source:</strong> Referrals</p>
+                <p><strong>Common Cities:</strong> Seattle, Pittsburgh</p>
+                <p><strong>Common Genders:</strong> Mixed</p>
+                <p><strong>Common Age Ranges:</strong> 55-64, 65 and older</p>
+                <p><strong>Common Income Ranges:</strong> $20,000 to $199,999</p>
+                <p><strong>Common Job Titles:</strong> Senior Project Accountant, Senior Associate Principal, SVP</p>
+                <p><strong>Common Companies:</strong> Condé Nast, Peloton Interactive</p>
+            </div>
         </div>
-        <div class="chart-container">
-            <h2>Age Range vs Annual Income</h2>
-            <div id="age-income-scatter" style="height: 400px;"></div>
+        <div class="section">
+            <div class="chart-container">
+                <h2>Source Distribution</h2>
+                <div id="source-distribution" style="height: 400px;"></div>
+            </div>
         </div>
-        <div class="chart-container">
-            <h2>City vs Annual Income</h2>
-            <div id="city-income-scatter" style="height: 400px;"></div>
+        <div class="section">
+            <div class="chart-container">
+                <h2>Age Range Distribution</h2>
+                <div id="age-distribution" style="height: 400px;"></div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="chart-container">
+                <h2>City Distribution</h2>
+                <div id="city-distribution" style="height: 400px;"></div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="chart-container">
+                <h2>Engagement Metrics</h2>
+                <div id="engagement-metrics" style="height: 400px;"></div>
+            </div>
         </div>
     </div>
 
@@ -69,8 +137,9 @@
 
             // Create visualizations
             createSourceDistribution(gaData);
-            createAgeIncomeScatter(userProfiles);
-            createCityIncomeScatter(userProfiles);
+            createAgeDistribution(userProfiles);
+            createCityDistribution(userProfiles);
+            createEngagementMetrics(gaData);
         }
 
         // Create Source Distribution chart
@@ -95,50 +164,77 @@
             Plotly.newPlot('source-distribution', [trace], layout);
         }
 
-        // Create Age vs Income scatter plot
-        function createAgeIncomeScatter(data) {
+        // Create Age Distribution chart
+        function createAgeDistribution(data) {
             const ages = data.map(d => d["Common Age Ranges"]);
-            const incomes = data.map(d => d["Common Income Ranges"]);
 
             const trace = {
                 x: ages,
-                y: incomes,
-                mode: 'markers',
-                type: 'scatter',
-                marker: { color: '#28a745', size: 10 }
+                type: 'histogram',
+                marker: { color: '#28a745' }
             };
 
             const layout = {
-                title: 'Age Range vs Annual Income',
+                title: 'Age Range Distribution',
                 xaxis: { title: 'Age Range', automargin: true },
-                yaxis: { title: 'Annual Income', automargin: true },
+                yaxis: { title: 'Count' },
                 margin: { t: 30 }
             };
 
-            Plotly.newPlot('age-income-scatter', [trace], layout);
+            Plotly.newPlot('age-distribution', [trace], layout);
         }
 
-        // Create City vs Income scatter plot
-        function createCityIncomeScatter(data) {
+        // Create City Distribution chart
+        function createCityDistribution(data) {
             const cities = data.map(d => d["Common Cities"]);
-            const incomes = data.map(d => d["Common Income Ranges"]);
 
             const trace = {
                 x: cities,
-                y: incomes,
-                mode: 'markers',
-                type: 'scatter',
-                marker: { color: '#ffc107', size: 10 }
+                type: 'histogram',
+                marker: { color: '#ffc107' }
             };
 
             const layout = {
-                title: 'City vs Annual Income',
+                title: 'City Distribution',
                 xaxis: { title: 'City', automargin: true, tickangle: -45 },
-                yaxis: { title: 'Annual Income', automargin: true },
+                yaxis: { title: 'Count' },
                 margin: { t: 30 }
             };
 
-            Plotly.newPlot('city-income-scatter', [trace], layout);
+            Plotly.newPlot('city-distribution', [trace], layout);
+        }
+
+        // Create Engagement Metrics chart
+        function createEngagementMetrics(data) {
+            const sources = data.map(d => d["First user primary channel group (Default Channel Group)"]);
+            const engagementRate = data.map(d => d["Engagement rate"]);
+            const engagementTime = data.map(d => d["Average engagement time"]);
+
+            const trace1 = {
+                x: sources,
+                y: engagementRate,
+                name: 'Engagement Rate',
+                type: 'bar',
+                marker: { color: '#17a2b8' }
+            };
+
+            const trace2 = {
+                x: sources,
+                y: engagementTime,
+                name: 'Average Engagement Time',
+                type: 'bar',
+                marker: { color: '#ffc107' }
+            };
+
+            const layout = {
+                title: 'Engagement Metrics',
+                barmode: 'group',
+                xaxis: { title: 'Source', automargin: true },
+                yaxis: { title: 'Value' },
+                margin: { t: 30 }
+            };
+
+            Plotly.newPlot('engagement-metrics', [trace1, trace2], layout);
         }
 
         // Load data and create visualizations
