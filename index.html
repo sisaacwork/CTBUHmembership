@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Dashboard</title>
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Interactive Dashboard</h1>
+    <div id="source-distribution" style="width:100%;max-width:700px;margin:auto;"></div>
+    <div id="age-income-scatter" style="width:100%;max-width:700px;margin:auto;"></div>
+    <div id="city-income-scatter" style="width:100%;max-width:700px;margin:auto;"></div>
+
+    <script>
+        // Load JSON data
+        async function loadData() {
+            const userProfilesResponse = await fetch('user_profiles.json');
+            const gaDataResponse = await fetch('google_analytics_data.json');
+            const userProfiles = await userProfilesResponse.json();
+            const gaData = await gaDataResponse.json();
+
+            // Create visualizations
+            createSourceDistribution(gaData);
+            createAgeIncomeScatter(userProfiles);
+            createCityIncomeScatter(userProfiles);
+        }
+
+        // Create Source Distribution chart
+        function createSourceDistribution(data) {
+            const sources = data.map(d => d["First user primary channel group (Default Channel Group)"]);
+            const counts = data.map(d => d["Engaged sessions"]);
+
+            const trace = {
+                x: sources,
+                y: counts,
+                type: 'bar'
+            };
+
+            const layout = {
+                title: 'Source Distribution',
+                xaxis: { title: 'Source' },
+                yaxis: { title: 'Engaged Sessions' }
+            };
+
+            Plotly.newPlot('source-distribution', [trace], layout);
+        }
+
+        // Create Age vs Income scatter plot
+        function createAgeIncomeScatter(data) {
+            const ages = data.map(d => d["Common Age Ranges"]);
+            const incomes = data.map(d => d["Common Income Ranges"]);
+
+            const trace = {
+                x: ages,
+                y: incomes,
+                mode: 'markers',
+                type: 'scatter'
+            };
+
+            const layout = {
+                title: 'Age Range vs Annual Income',
+                xaxis: { title: 'Age Range' },
+                yaxis: { title: 'Annual Income' }
+            };
+
+            Plotly.newPlot('age-income-scatter', [trace], layout);
+        }
+
+        // Create City vs Income scatter plot
+        function createCityIncomeScatter(data) {
+            const cities = data.map(d => d["Common Cities"]);
+            const incomes = data.map(d => d["Common Income Ranges"]);
+
+            const trace = {
+                x: cities,
+                y: incomes,
+                mode: 'markers',
+                type: 'scatter'
+            };
+
+            const layout = {
+                title: 'City vs Annual Income',
+                xaxis: { title: 'City' },
+                yaxis: { title: 'Annual Income' }
+            };
+
+            Plotly.newPlot('city-income-scatter', [trace], layout);
+        }
+
+        // Load data and create visualizations
+        loadData();
+    </script>
+</body>
+</html>
