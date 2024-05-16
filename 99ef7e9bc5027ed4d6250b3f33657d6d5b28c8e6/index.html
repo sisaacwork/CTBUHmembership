@@ -124,6 +124,7 @@
                 <p><strong>Income Range:</strong> $120,000 and higher</p>
                 <p><strong>Job Titles:</strong> C-Suite (Principal, Owner, President)</p>
                 <p><strong>Most Common Companies:</strong> Architecture (Gensler, Adrian Smith + Gordon Gill Architecture)</p>
+                <p><strong>Total Direct Visitors:</strong> <span id="total-direct"></span></p>
             </div>
             <div class="profile-box">
                 <h3><strong>02</strong> The Search Engine Visitor</h3>
@@ -134,6 +135,7 @@
                 <p><strong>Income Range:</strong> $45,000 to $90,000</p>
                 <p><strong>Job Titles:</strong> Middle to Senior Management (Associate Director, Senior Associate)</p>
                 <p><strong>Most Common Companies:</strong> Engineering (Arup, WSP)</p>
+                <p><strong>Total Organic Search Visitors:</strong> <span id="total-organic-search"></span></p>
             </div>
             <div class="profile-box">
                 <h3><strong>03</strong> The Referral Visitor</h3>
@@ -144,6 +146,7 @@
                 <p><strong>Income Range:</strong> $120,000 to $200,000</p>
                 <p><strong>Job Titles:</strong> Senior Management (Senior Associate Principal, SVP)</p>
                 <p><strong>Most Common Companies:</strong> AEC-Unaffiliated (Condé Nast, Peloton Interactive)</p>
+                <p><strong>Total Referral Visitors:</strong> <span id="total-referral"></span></p>
             </div>
         </div>
         <div class="section chart-row">
@@ -165,6 +168,17 @@
             const gaDataResponse = await fetch('google_analytics_data.json');
             const userProfiles = await userProfilesResponse.json();
             const gaData = await gaDataResponse.json();
+
+            // Extract visitor counts from GA data
+            const directVisitors = gaData.find(d => d["First user primary channel group (Default Channel Group)"] === "Direct")["Engaged sessions"];
+            const organicSearchVisitors = gaData.find(d => d["First user primary channel group (Default Channel Group)"] === "Organic Search")["Engaged sessions"];
+            const totalVisitors = gaData.reduce((sum, d) => sum + d["Engaged sessions"], 0);
+            const referralVisitors = totalVisitors - directVisitors - organicSearchVisitors;
+
+            // Display visitor counts in the profile boxes
+            document.getElementById('total-direct').textContent = directVisitors;
+            document.getElementById('total-organic-search').textContent = organicSearchVisitors;
+            document.getElementById('total-referral').textContent = referralVisitors;
 
             // Create visualizations
             createSourceDistribution(gaData);
@@ -205,8 +219,8 @@
         // Create Engagement Metrics chart with secondary Y-axis
         function createEngagementMetrics(data) {
             const sources = data.map(d => d["First user primary channel group (Default Channel Group)"]);
-            const engagementRate = data.map(d => parseFloat(d["Engagement rate"]) * 100);
-            const engagementTime = data.map(d => parseFloat(d["Average engagement time"]));
+            const engagementRate = data.map(d => Math.round(parseFloat(d["Engagement rate"]) * 100));
+            const engagementTime = data.map(d => Math.round(parseFloat(d["Average engagement time"])));
 
             Highcharts.chart('engagement-metrics', {
                 chart: {
