@@ -67,6 +67,7 @@
             margin-bottom: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 48%;
+            margin: 1%;
         }
         .chart-container h2 {
             font-size: 18px;
@@ -78,6 +79,12 @@
         }
         .section:nth-child(even) {
             background-color: #eaeaea;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                width: 98%;
+                margin: 1% auto;
+            }
         }
     </style>
 </head>
@@ -217,7 +224,7 @@
             Plotly.newPlot('city-distribution', [trace], layout);
         }
 
-        // Create Engagement Metrics chart
+        // Create Engagement Metrics chart with secondary Y-axis
         function createEngagementMetrics(data) {
             const sources = data.map(d => d["First user primary channel group (Default Channel Group)"]);
             const engagementRate = data.map(d => d["Engagement rate"]);
@@ -228,7 +235,8 @@
                 y: engagementRate,
                 name: 'Engagement Rate',
                 type: 'bar',
-                marker: { color: '#17a2b8' }
+                marker: { color: '#17a2b8' },
+                yaxis: 'y2'
             };
 
             const trace2 = {
@@ -243,7 +251,12 @@
                 title: 'Engagement Metrics',
                 barmode: 'group',
                 xaxis: { title: 'Source', automargin: true },
-                yaxis: { title: 'Value' },
+                yaxis: { title: 'Average Engagement Time' },
+                yaxis2: {
+                    title: 'Engagement Rate',
+                    overlaying: 'y',
+                    side: 'right'
+                },
                 margin: { t: 30 }
             };
 
