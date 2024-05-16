@@ -65,7 +65,7 @@
         .chart-container {
             background-color: white;
             border-radius: 8px;
-            padding: 20px;
+            padding: 10px;
             margin-bottom: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 48%;
@@ -73,9 +73,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
         }
         .chart-container h2 {
-            font-size: 18px;
+            font-size: 16px;
             margin-bottom: 10px;
             text-align: center;
             width: 100%;
@@ -135,21 +136,21 @@
         <div class="section chart-row">
             <div class="chart-container">
                 <h2>Source Distribution</h2>
-                <div id="source-distribution" style="height: 300px; width: 100%;"></div>
+                <div id="source-distribution" style="height: 400px; width: 100%;"></div>
             </div>
             <div class="chart-container">
                 <h2>Age Range Distribution</h2>
-                <div id="age-distribution" style="height: 300px; width: 100%;"></div>
+                <div id="age-distribution" style="height: 400px; width: 100%;"></div>
             </div>
         </div>
         <div class="section chart-row">
             <div class="chart-container">
                 <h2>City Distribution</h2>
-                <div id="city-distribution" style="height: 300px; width: 100%;"></div>
+                <div id="city-distribution" style="height: 400px; width: 100%;"></div>
             </div>
             <div class="chart-container">
                 <h2>Engagement Metrics</h2>
-                <div id="engagement-metrics" style="height: 300px; width: 100%;"></div>
+                <div id="engagement-metrics" style="height: 400px; width: 100%;"></div>
             </div>
         </div>
     </div>
@@ -239,6 +240,14 @@
 
             const trace1 = {
                 x: sources,
+                y: engagementTime,
+                name: 'Average Engagement Time',
+                type: 'bar',
+                marker: { color: '#ffc107' }
+            };
+
+            const trace2 = {
+                x: sources,
                 y: engagementRate,
                 name: 'Engagement Rate',
                 type: 'bar',
@@ -246,17 +255,9 @@
                 yaxis: 'y2'
             };
 
-            const trace2 = {
-                x: sources,
-                y: engagementTime,
-                name: 'Average Engagement Time',
-                type: 'bar',
-                marker: { color: '#ffc107' }
-            };
-
             const layout = {
                 title: 'Engagement Metrics',
-                barmode: 'overlay',
+                barmode: 'group',
                 xaxis: { title: 'Source', automargin: true },
                 yaxis: { title: 'Average Engagement Time' },
                 yaxis2: {
@@ -267,7 +268,7 @@
                 margin: { t: 30 }
             };
 
-            Plotly.newPlot('engagement-metrics', [trace2, trace1], layout);
+            Plotly.newPlot('engagement-metrics', [trace1, trace2], layout);
         }
 
         // Load data and create visualizations
