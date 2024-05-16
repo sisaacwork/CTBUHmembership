@@ -39,10 +39,26 @@
             padding: 20px;
             width: 30%;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .profile-box:hover {
+            transform: translateY(-10px);
         }
         .profile-box h3 {
-            font-size: 18px;
+            font-size: 20px;
             margin-bottom: 10px;
+            color: #343a40;
+        }
+        .profile-box p {
+            font-size: 14px;
+            margin: 5px 0;
+            color: #555;
+        }
+        .chart-row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
         }
         .chart-container {
             background-color: white;
@@ -50,9 +66,10 @@
             padding: 20px;
             margin-bottom: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 48%;
         }
         .chart-container h2 {
-            font-size: 20px;
+            font-size: 18px;
             margin-bottom: 10px;
         }
         .section {
@@ -101,28 +118,24 @@
                 <p><strong>Common Companies:</strong> Condé Nast, Peloton Interactive</p>
             </div>
         </div>
-        <div class="section">
+        <div class="section chart-row">
             <div class="chart-container">
                 <h2>Source Distribution</h2>
-                <div id="source-distribution" style="height: 400px;"></div>
+                <div id="source-distribution" style="height: 300px;"></div>
             </div>
-        </div>
-        <div class="section">
             <div class="chart-container">
                 <h2>Age Range Distribution</h2>
-                <div id="age-distribution" style="height: 400px;"></div>
+                <div id="age-distribution" style="height: 300px;"></div>
             </div>
         </div>
-        <div class="section">
+        <div class="section chart-row">
             <div class="chart-container">
                 <h2>City Distribution</h2>
-                <div id="city-distribution" style="height: 400px;"></div>
+                <div id="city-distribution" style="height: 300px;"></div>
             </div>
-        </div>
-        <div class="section">
             <div class="chart-container">
                 <h2>Engagement Metrics</h2>
-                <div id="engagement-metrics" style="height: 400px;"></div>
+                <div id="engagement-metrics" style="height: 300px;"></div>
             </div>
         </div>
     </div>
