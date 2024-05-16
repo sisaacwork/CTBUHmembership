@@ -30,7 +30,7 @@
         }
         .profile-container {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             margin-bottom: 20px;
             flex-wrap: wrap;
         }
@@ -88,7 +88,16 @@
         .section:nth-child(even) {
             background-color: #eaeaea;
         }
+        @media (max-width: 1200px) {
+            .profile-box {
+                width: 45%;
+            }
+        }
         @media (max-width: 768px) {
+            .profile-box {
+                width: 98%;
+                margin: 10px auto;
+            }
             .chart-container {
                 width: 98%;
                 margin: 1% auto;
