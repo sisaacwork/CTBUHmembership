@@ -6,12 +6,58 @@
     <title>Interactive Dashboard</title>
     <!-- Plotly.js -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 24px;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+        .chart-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .chart-container h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Interactive Dashboard</h1>
-    <div id="source-distribution" style="width:100%;max-width:700px;margin:auto;"></div>
-    <div id="age-income-scatter" style="width:100%;max-width:700px;margin:auto;"></div>
-    <div id="city-income-scatter" style="width:100%;max-width:700px;margin:auto;"></div>
+    <header>
+        Interactive Dashboard
+    </header>
+    <div class="container">
+        <div class="chart-container">
+            <h2>Source Distribution</h2>
+            <div id="source-distribution" style="height: 400px;"></div>
+        </div>
+        <div class="chart-container">
+            <h2>Age Range vs Annual Income</h2>
+            <div id="age-income-scatter" style="height: 400px;"></div>
+        </div>
+        <div class="chart-container">
+            <h2>City vs Annual Income</h2>
+            <div id="city-income-scatter" style="height: 400px;"></div>
+        </div>
+    </div>
 
     <script>
         // Load JSON data
@@ -35,13 +81,15 @@
             const trace = {
                 x: sources,
                 y: counts,
-                type: 'bar'
+                type: 'bar',
+                marker: { color: '#17a2b8' }
             };
 
             const layout = {
                 title: 'Source Distribution',
-                xaxis: { title: 'Source' },
-                yaxis: { title: 'Engaged Sessions' }
+                xaxis: { title: 'Source', automargin: true },
+                yaxis: { title: 'Engaged Sessions' },
+                margin: { t: 30 }
             };
 
             Plotly.newPlot('source-distribution', [trace], layout);
@@ -56,13 +104,15 @@
                 x: ages,
                 y: incomes,
                 mode: 'markers',
-                type: 'scatter'
+                type: 'scatter',
+                marker: { color: '#28a745', size: 10 }
             };
 
             const layout = {
                 title: 'Age Range vs Annual Income',
-                xaxis: { title: 'Age Range' },
-                yaxis: { title: 'Annual Income' }
+                xaxis: { title: 'Age Range', automargin: true },
+                yaxis: { title: 'Annual Income', automargin: true },
+                margin: { t: 30 }
             };
 
             Plotly.newPlot('age-income-scatter', [trace], layout);
@@ -77,13 +127,15 @@
                 x: cities,
                 y: incomes,
                 mode: 'markers',
-                type: 'scatter'
+                type: 'scatter',
+                marker: { color: '#ffc107', size: 10 }
             };
 
             const layout = {
                 title: 'City vs Annual Income',
-                xaxis: { title: 'City' },
-                yaxis: { title: 'Annual Income' }
+                xaxis: { title: 'City', automargin: true, tickangle: -45 },
+                yaxis: { title: 'Annual Income', automargin: true },
+                margin: { t: 30 }
             };
 
             Plotly.newPlot('city-income-scatter', [trace], layout);
