@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Dashboard</title>
+    <title>The Interactive CTBUH Membership Dashboard</title>
     <!-- Highcharts -->
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <!-- Google Fonts -->
@@ -111,39 +111,39 @@
 </head>
 <body>
     <header>
-        Interactive Dashboard
+        The Interactive CTBUH Membership Dashboard
     </header>
     <div class="container">
         <div class="profile-container">
             <div class="profile-box">
-                <h3>Direct Visitor</h3>
-                <p><strong>Source:</strong> Direct</p>
-                <p><strong>Common Cities:</strong> New York, Chicago</p>
-                <p><strong>Common Genders:</strong> Female</p>
-                <p><strong>Common Age Ranges:</strong> 55-64, 65 and older</p>
-                <p><strong>Common Income Ranges:</strong> $120,000 to $149,999</p>
-                <p><strong>Common Job Titles:</strong> Principal, Owner, President</p>
-                <p><strong>Common Companies:</strong> Gensler, Adrian Smith + Gordon Gill Architecture</p>
+                <h3><strong>01</strong> The Direct Visitor</h3>
+                <p><strong>Source:</strong> Typing in the direct link to ~/membership </p>
+                <p><strong>Cities:</strong> Tier One Cities: New York, Chicago</p>
+                <p><strong>Gender:</strong> Female (58%)</p>
+                <p><strong>Age Range:</strong> 55 and older</p>
+                <p><strong>Income Range:</strong> $120,000 and higher</p>
+                <p><strong>Job Titles:</strong> C-Suite (Principal, Owner, President)</p>
+                <p><strong>Most Common Companies:</strong> Architecture (Gensler, Adrian Smith + Gordon Gill Architecture)</p>
             </div>
             <div class="profile-box">
-                <h3>Search Engine Visitor</h3>
-                <p><strong>Source:</strong> Google or Bing</p>
-                <p><strong>Common Cities:</strong> Miami, Brooklyn</p>
-                <p><strong>Common Genders:</strong> Mixed (lean towards male)</p>
-                <p><strong>Common Age Ranges:</strong> 45-54, 35-44</p>
-                <p><strong>Common Income Ranges:</strong> $45,000 to $59,999, $75,000 to $89,999</p>
-                <p><strong>Common Job Titles:</strong> Director, Senior Associate, VP</p>
-                <p><strong>Common Companies:</strong> CTBUH</p>
+                <h3><strong>02</strong> The Search Engine Visitor</h3>
+                <p><strong>Source:</strong> Terms "CTBUH membership", "join CTBUH" from primarily Google (92%)</p>
+                <p><strong>Cities:</strong> Tier Two Cities: Miami, Dallas</p>
+                <p><strong>Gender:</strong> Mixed (2% lean towards male)</p>
+                <p><strong>Age Range:</strong> 35 to 54</p>
+                <p><strong>Income Range:</strong> $45,000 to $90,000</p>
+                <p><strong>Job Titles:</strong> Middle to Senior Management (Associate Director, Senior Associate)</p>
+                <p><strong>Most Common Companies:</strong> Engineering (Arup, WSP)</p>
             </div>
             <div class="profile-box">
-                <h3>Referral Visitor</h3>
-                <p><strong>Source:</strong> Referrals</p>
-                <p><strong>Common Cities:</strong> Seattle, Pittsburgh</p>
-                <p><strong>Common Genders:</strong> Mixed</p>
-                <p><strong>Common Age Ranges:</strong> 55-64, 65 and older</p>
-                <p><strong>Common Income Ranges:</strong> $20,000 to $199,999</p>
-                <p><strong>Common Job Titles:</strong> Senior Project Accountant, Senior Associate Principal, SVP</p>
-                <p><strong>Common Companies:</strong> Condé Nast, Peloton Interactive</p>
+                <h3><strong>03</strong> The Referral Visitor</h3>
+                <p><strong>Source:</strong> Referral Links</p>
+                <p><strong>Cities:</strong> Tier Two Cities: Seattle, Pittsburgh</p>
+                <p><strong>Gender:</strong> Mixed (near even split)</p>
+                <p><strong>Age Range:</strong> 55 and older</p>
+                <p><strong>Income Range:</strong> $120,000 to $200,000</p>
+                <p><strong>Job Titles:</strong> Senior Management (Senior Associate Principal, SVP)</p>
+                <p><strong>Most Common Companies:</strong> AEC-Unaffiliated (Condé Nast, Peloton Interactive)</p>
             </div>
         </div>
         <div class="section chart-row">
@@ -210,66 +210,6 @@
                 series: [{
                     name: 'Engaged Sessions',
                     data: counts
-                }]
-            });
-        }
-
-        // Create Age Distribution chart
-        function createAgeDistribution(data) {
-            const ages = data.map(d => d["Common Age Ranges"]);
-
-            Highcharts.chart('age-distribution', {
-                chart: {
-                    type: 'column'
-                },
-                title: {
-                    text: 'Age Range Distribution'
-                },
-                xAxis: {
-                    categories: ages,
-                    title: {
-                        text: 'Age Range'
-                    }
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        text: 'Count'
-                    }
-                },
-                series: [{
-                    name: 'Count',
-                    data: ages.map(age => data.filter(d => d["Common Age Ranges"] === age).length)
-                }]
-            });
-        }
-
-        // Create City Distribution chart
-        function createCityDistribution(data) {
-            const cities = data.map(d => d["Common Cities"]);
-
-            Highcharts.chart('city-distribution', {
-                chart: {
-                    type: 'column'
-                },
-                title: {
-                    text: 'City Distribution'
-                },
-                xAxis: {
-                    categories: cities,
-                    title: {
-                        text: 'City'
-                    }
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        text: 'Count'
-                    }
-                },
-                series: [{
-                    name: 'Count',
-                    data: cities.map(city => data.filter(d => d["Common Cities"] === city).length)
                 }]
             });
         }
