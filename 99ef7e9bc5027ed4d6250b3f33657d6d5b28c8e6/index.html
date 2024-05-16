@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Dashboard</title>
-    <!-- Plotly.js -->
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <!-- Highcharts -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
@@ -171,8 +171,8 @@
     <script>
         // Load JSON data
         async function loadData() {
-            const userProfilesResponse = await fetch('99ef7e9bc5027ed4d6250b3f33657d6d5b28c8e6/user_profiles.json');
-            const gaDataResponse = await fetch('99ef7e9bc5027ed4d6250b3f33657d6d5b28c8e6/google_analytics_data.json');
+            const userProfilesResponse = await fetch('user_profiles.json');
+            const gaDataResponse = await fetch('google_analytics_data.json');
             const userProfiles = await userProfilesResponse.json();
             const gaData = await gaDataResponse.json();
 
@@ -188,100 +188,130 @@
             const sources = data.map(d => d["First user primary channel group (Default Channel Group)"]);
             const counts = data.map(d => d["Engaged sessions"]);
 
-            const trace = {
-                x: sources,
-                y: counts,
-                type: 'bar',
-                marker: { color: '#17a2b8' }
-            };
-
-            const layout = {
-                title: 'Source Distribution',
-                xaxis: { title: 'Source', automargin: true },
-                yaxis: { title: 'Engaged Sessions' },
-                margin: { t: 30 }
-            };
-
-            Plotly.newPlot('source-distribution', [trace], layout);
+            Highcharts.chart('source-distribution', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Source Distribution'
+                },
+                xAxis: {
+                    categories: sources,
+                    title: {
+                        text: 'Source'
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Engaged Sessions'
+                    }
+                },
+                series: [{
+                    name: 'Engaged Sessions',
+                    data: counts
+                }]
+            });
         }
 
         // Create Age Distribution chart
         function createAgeDistribution(data) {
             const ages = data.map(d => d["Common Age Ranges"]);
 
-            const trace = {
-                x: ages,
-                type: 'histogram',
-                marker: { color: '#28a745' }
-            };
-
-            const layout = {
-                title: 'Age Range Distribution',
-                xaxis: { title: 'Age Range', automargin: true },
-                yaxis: { title: 'Count' },
-                margin: { t: 30 }
-            };
-
-            Plotly.newPlot('age-distribution', [trace], layout);
+            Highcharts.chart('age-distribution', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Age Range Distribution'
+                },
+                xAxis: {
+                    categories: ages,
+                    title: {
+                        text: 'Age Range'
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Count'
+                    }
+                },
+                series: [{
+                    name: 'Count',
+                    data: ages.map(age => data.filter(d => d["Common Age Ranges"] === age).length)
+                }]
+            });
         }
 
         // Create City Distribution chart
         function createCityDistribution(data) {
             const cities = data.map(d => d["Common Cities"]);
 
-            const trace = {
-                x: cities,
-                type: 'histogram',
-                marker: { color: '#ffc107' }
-            };
-
-            const layout = {
-                title: 'City Distribution',
-                xaxis: { title: 'City', automargin: true, tickangle: -45 },
-                yaxis: { title: 'Count' },
-                margin: { t: 30 }
-            };
-
-            Plotly.newPlot('city-distribution', [trace], layout);
+            Highcharts.chart('city-distribution', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'City Distribution'
+                },
+                xAxis: {
+                    categories: cities,
+                    title: {
+                        text: 'City'
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Count'
+                    }
+                },
+                series: [{
+                    name: 'Count',
+                    data: cities.map(city => data.filter(d => d["Common Cities"] === city).length)
+                }]
+            });
         }
 
         // Create Engagement Metrics chart with secondary Y-axis
         function createEngagementMetrics(data) {
             const sources = data.map(d => d["First user primary channel group (Default Channel Group)"]);
-            const engagementRate = data.map(d => d["Engagement rate"]);
-            const engagementTime = data.map(d => d["Average engagement time"]);
+            const engagementRate = data.map(d => parseFloat(d["Engagement rate"]));
+            const engagementTime = data.map(d => parseFloat(d["Average engagement time"]));
 
-            const trace1 = {
-                x: sources,
-                y: engagementTime,
-                name: 'Average Engagement Time',
-                type: 'bar',
-                marker: { color: '#ffc107' }
-            };
-
-            const trace2 = {
-                x: sources,
-                y: engagementRate,
-                name: 'Engagement Rate',
-                type: 'bar',
-                marker: { color: '#17a2b8' },
-                yaxis: 'y2'
-            };
-
-            const layout = {
-                title: 'Engagement Metrics',
-                barmode: 'group',
-                xaxis: { title: 'Source', automargin: true },
-                yaxis: { title: 'Average Engagement Time' },
-                yaxis2: {
-                    title: 'Engagement Rate',
-                    overlaying: 'y',
-                    side: 'right'
+            Highcharts.chart('engagement-metrics', {
+                chart: {
+                    type: 'column'
                 },
-                margin: { t: 30 }
-            };
-
-            Plotly.newPlot('engagement-metrics', [trace1, trace2], layout);
+                title: {
+                    text: 'Engagement Metrics'
+                },
+                xAxis: {
+                    categories: sources,
+                    title: {
+                        text: 'Source'
+                    }
+                },
+                yAxis: [{
+                    title: {
+                        text: 'Average Engagement Time'
+                    }
+                }, {
+                    title: {
+                        text: 'Engagement Rate'
+                    },
+                    opposite: true
+                }],
+                series: [{
+                    name: 'Average Engagement Time',
+                    data: engagementTime
+                }, {
+                    name: 'Engagement Rate',
+                    data: engagementRate,
+                    yAxis: 1
+                }]
+            });
         }
 
         // Load data and create visualizations
