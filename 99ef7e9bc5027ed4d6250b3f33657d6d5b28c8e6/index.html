@@ -27,6 +27,12 @@
         .header-title {
             margin: 0;
         }
+        .feature-request-button-parent {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
         .feature-request-button {
             background-color: #007bff;
             color: white;
@@ -175,7 +181,9 @@
                 <div id="engagement-metrics" style="height: 400px; width: 100%;"></div>
             </div>
         </div>
-        <a class="feature-request-button" href="mailto:iwork@ctbuh.org">Request more features here</a>
+        <div class="feature-request-button-parent">
+            <a class="feature-request-button" href="mailto:iwork@ctbuh.org">Request more features here</a>
+        </div>
     </div>
 
     <script>
